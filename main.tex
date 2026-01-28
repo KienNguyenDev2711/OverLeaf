@@ -9,7 +9,7 @@
 \usepackage{geometry}
 \usepackage{graphicx}
 \usepackage{tikz}
-\usetikzlibrary{calc}
+\usetikzlibrary{calc,decorations.markings}
 \usepackage{caption}
 \usepackage{hyperref}
 \usepackage{enumitem}
@@ -34,6 +34,24 @@
 \newcommand{\ip}[2]{\left\langle #1,#2\right\rangle}
 \newcommand{\norminf}[1]{\left\lVert #1\right\rVert_\infty}
 \newcommand{\argmax}{\operatorname*{arg\,max}}
+
+% Numbering scheme per request:
+% Section 1 -> I; Sections 2..6 -> I.2..I.6; Section 7 -> II.
+% Subsections inherit as I.1, I.6.1, ...
+\makeatletter
+\renewcommand{\thesection}{%
+  \ifnum\value{section}<7\relax
+    \ifnum\value{section}=1\relax
+      I%
+    \else
+      I.\arabic{section}%
+    \fi
+  \else
+    \@Roman{\numexpr\value{section}-5\relax}% 7->II, 8->III, ...
+  \fi
+}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\makeatother
 
 \title{Điều khiển tối ưu thời gian tuyến tính và Nguyên lý cực đại Pontryagin}
 \author{NGUYỄN THỊ THẢO HIỀN}
@@ -106,7 +124,7 @@ Từ lý thuyết phương trình vi phân, nghiệm của \eqref{eq:1} có th�
 x(t)=X(t)x_0+\int_0^t X(t)X^{-1}(\tau)B(\tau)u(\tau)\,d\tau.
 \end{equation}
 
-\subsection{Đặt biến để đơn giản hóa}
+\subsection*{Đặt biến để đơn giản hóa}
 Đặt
 \begin{equation}
 \tag{7}\label{eq:C}
@@ -170,7 +188,7 @@ R(t)=\left\{\int_0^t y(\tau)u(\tau)\,d\tau:\ u(\cdot)\in\Delta\right\}
 \end{itemize}
 Tính lồi là then chốt vì cho phép áp dụng các định lý hình học mạnh (đặc biệt là định lý siêu phẳng đỡ) để suy ra các điều kiện cực đại kiểu Pontryagin.
 
-\subsection{Mối quan hệ giữa $\mathcal{A}(t)$ và $R(t)$}
+\subsection*{Mối quan hệ giữa $\mathcal{A}(t)$ và $R(t)$}
 Gọi $\mathcal{A}(t)$ là tập trạng thái có thể đạt được tại thời điểm $t$ trong không gian gốc:
 \[\mathcal{A}(t)\coloneqq\{x(t;u):u(\cdot)\in\Delta\}.\]
 Từ công thức nghiệm \eqref{eq:sol} và phép biến đổi $y(t)=\int_0^t C(\tau)u(\tau)\,d\tau$ suy ra ánh xạ tuyến tính qua ma trận nghiệm chính $X(t)$:
@@ -282,7 +300,7 @@ Theo Định lý Siêu phẳng Đỡ, tồn tại một siêu phẳng không t�
   \item $\eta\trans y$: biểu diễn phép nhân vô hướng (dot product) hoặc phép chiếu lên phương $\eta$.
 \end{itemize}
 
-\subsection{Bất đẳng thức tích phân và điều kiện cực đại Pontryagin}
+\subsection*{Bất đẳng thức tích phân và điều kiện cực đại Pontryagin}
 Vì mọi $y\in R(t^*)$ có dạng $y=\int_0^{t^*} C(t)u(t)\,dt$, từ \eqref{eq:support} suy ra
 \begin{equation}
 \eta\trans y_1
@@ -625,42 +643,14 @@ Quỹ đạo tối ưu được xây dựng bằng cách nối hai cung parabol 
 \setcounter{figure}{4}
 \begin{figure}[h]
 \centering
-\begin{tikzpicture}[scale=1]
-  % axes
-  \draw[->] (-2.7,0) -- (3.2,0) node[below right] {$x_1$};
-  \draw[->] (0,-2.2) -- (0,2.6) node[above left] {$x_2$};
-  \draw (0,0) circle (1.6pt);
-
-  % switching curves (dashed): x2 = ± sqrt(2 x1), i.e. x1 = x2^2/2, x1 >= 0
-  \draw[dashed,domain=-1.75:1.75,samples=200]
-    plot ({0.55*(\x*\x)}, {\x});
-
-  % an illustrative optimal trajectory: follow u=+1 on upper arc then switch and follow u=-1 on lower arc to reach the origin
-  % upper arc (u=+1): x1 = x2^2/2 + c1
-  \def\cOne{0.90}
-  \draw[thick,domain=0.00:1.75,samples=200]
-    plot ({\cOne+0.55*(\x*\x)}, {\x});
-
-  % lower arc (u=-1): x1 = -x2^2/2 + c2
-  \def\cTwo{1.55}
-  \draw[thick,domain=-1.55:0.00,samples=200]
-    plot ({\cTwo-0.55*(\x*\x)}, {\x});
-
-  % arrows indicating motion direction
-  \draw[->,thick] ({\cOne+0.55*(0.85*0.85)}, {0.85}) -- ({\cOne+0.55*(1.15*1.15)}, {1.15});
-  \draw[->,thick] ({\cTwo-0.55*((-0.55)*(-0.55))}, {-0.55}) -- ({\cTwo-0.55*((-0.95)*(-0.95))}, {-0.95});
-
-  % mark initial point on upper arc
-  \coordinate (Pstart) at ({\cOne+0.55*(1.35*1.35)}, {1.35});
-  \fill (Pstart) circle (2pt);
-  \node[anchor=west] at ($(Pstart)+(0.15,0.05)$) {$(x_0,y_0)$};
-\end{tikzpicture}
-\captionsetup{labelsep=none}
+\includegraphics[width=0.82\textwidth]{hinh5.jpg}
+% The image already contains the title; hide LaTeX caption text but keep numbering.
+\captionsetup{labelformat=empty}
 \caption{}
 \label{fig:5}
 \end{figure}
 
-Hình 5 minh hoạ cách xây dựng quỹ đạo tối ưu từ một điểm xuất phát $(x_0,y_0)$. Quỹ đạo này bao gồm một phần di chuyển với $u=+1$ (phần cong hướng lên) và một phần di chuyển với $u=-1$ (phần cong hướng xuống) để kết thúc chính xác tại gốc toạ độ. Đường cong nét đứt $x_2=\sqrt{2x_1}$ và $x_2=-\sqrt{2x_1}$ xác định ``mặt chuyển mạch'' --- nơi xảy ra sự chuyển đổi.
+Hình 5 minh hoạ cách xây dựng quỹ đạo tối ưu từ một điểm xuất phát $(x_0,y_0)$. Quỹ đạo tối ưu (đường đậm) được ghép từ hai cung ứng với hai giá trị điều khiển biên; trong hình minh hoạ, cung cuối đi về gốc ứng với $u=+1$, còn cung trước đó ứng với $u=-1$ (đường nét đứt). Hai nhánh đường cong nét đứt $x_2=-\sqrt{2x_1}$ (với $x_1>0$) và $x_2=\sqrt{-2x_1}$ (với $x_1<0$) biểu diễn đường cong chuyển mạch, nơi chiến lược bang-bang đổi dấu.
 
 \noindent\textbf{VD:} Nếu $x_0=4$ và $y_0=-1$, thì trước tiên ta phải điều khiển với $u=-1$, và khi hai đường parabol trong Hình 5 giao nhau, chúng ta đổi sang $u=+1$. Để tính thời điểm chuyển mạch đầu tiên $t_1$, chúng ta phải tìm phương trình của parabol thứ nhất:
 
