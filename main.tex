@@ -53,12 +53,7 @@
 \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
 \makeatother
 
-\title{Điều khiển tối ưu thời gian tuyến tính và Nguyên lý cực đại Pontryagin}
-\author{NGUYỄN THỊ THẢO HIỀN}
-\date{\today}
-
 \begin{document}
-\maketitle
 
 \section{Giới thiệu}
 Xét một hệ điều khiển được mô tả bởi phương trình vi phân vectơ:
@@ -448,7 +443,7 @@ với ràng buộc biên độ $|u_i(t)|\le 1$.
 Trong bài toán bị chặn biên độ $|u_i(t)|\le 1$, hạng phụ thuộc điều khiển trong Hamiltonian là tuyến tính theo $u$:
 \[H(\psi,x,u)=\psi A(t)x+\bigl(\psi B(t)\bigr)u.\]
 Vì thế, để cực đại hóa theo $u$ tại mỗi thời điểm, nghiệm tối ưu (khi không rơi vào trường hợp suy biến) sẽ chọn ngay các giá trị \emph{biên} của miền điều khiển.
-Điều khiển như vậy được gọi là \textbf{bang-bang}: mỗi thành phần $u_i^*(t)$ chỉ nhận các giá trị $+1$ hoặc $-1$ (gần như mọi $t$), và chỉ \emph{chuyển} giữa $+1$ và $-1$ tại các \textbf{thời điểm chuyển mạch} (switching times) khi biểu thức quyết định đổi dấu.
+Điều khiển như vậy được gọi là \textbf{bang-bang}: mỗi thành phần $u_i^*(t)$ chỉ nhận các giá trị $+1$ hoặc $-1$ (gần như mọi $t$), và chỉ \emph{chuyển} giữa $+1$ và $-1$ tại các \textbf{thời điểm chuyển mạch} (switching times) khi biểu thức quyết định đổi dấu. Mỗi lần điều khiển tối ưu thời gian chuyển từ trạng thái -1 lên 1 hoặc từ 1 xuống -1 thì được gọi là một lần bang - bang (nổ).
 
 \begin{itemize}[leftmargin=2.2em]
   \item Do ràng buộc biên độ $|u_i(t)|\le 1$, điều kiện cực đại hóa Hamiltonian dẫn đến việc $u^*(t)$ phải nhảy giữa các giá trị biên.
@@ -470,7 +465,7 @@ thì dạng điều khiển đã thu được ở Mục 5 chính là
 và khi $[\Phi(t)]_i=0$ thì $u_i^*(t)$ có thể không xác định tức thời (điểm chuyển mạch) hoặc có nhiều lựa chọn tương đương.
 
 \section{Ứng dụng của Nguyên lý Cực đại}
-Xét bài toán điều khiển trong Ví dụ 1 ở Chương I. Phương trình trạng thái là
+Xét một bài toán điều khiển tối ưu với phương trình trạng thái là:
 \begin{equation}
 \dot{x}(t)=
 \begin{bmatrix}
@@ -528,7 +523,7 @@ Tương tự,
 X^{-1}(t)=e^{-At}=I-At=\begin{bmatrix}1 & -t\\ 0 & 1\end{bmatrix}.
 \]
 
-\noindent\textbf{Hệ quả:} Bằng cách áp dụng Nguyên lý Cực đại, hàm điều khiển tối ưu có dạng \emph{bang-bang}. Hàm chuyển mạch trong trường hợp này là một hàm tuyến tính theo thời gian:
+\noindent\textbf{Hệ quả:} Bằng cách áp dụng Nguyên lý Cực đại, hàm điều khiển tối ưu có dạng \emph{bang-bang}. Hàm chuyển mạch trong trường hợp này là một hàm tuyến tính theo thời gian, điều khiển tối ưu thời gian có dạng:
 \begin{equation}
 u^*(t)=\sgn\bigl(\eta_1 t+\eta_2\bigr),\qquad \text{với một số }(\eta_1,\eta_2)\in\R^2.
 \tag{2}
