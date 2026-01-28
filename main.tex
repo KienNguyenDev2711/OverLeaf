@@ -2,7 +2,7 @@
 \documentclass[12pt,a4paper]{article}
 
 % Vietnamese support (robust on Overleaf with pdfLaTeX)
-\usepackage[utf8]{vietnam}
+\usepackage[utf8]{vntex}
 
 \usepackage{microtype}
 \usepackage{amsmath,amssymb,amsthm,mathtools}
@@ -13,6 +13,8 @@
 \usepackage{caption}
 \usepackage{hyperref}
 \usepackage{enumitem}
+
+\renewcommand{\figurename}{Hình}
 
 \geometry{margin=2.5cm}
 \hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue}
@@ -47,37 +49,13 @@ Xét một hệ điều khiển được mô tả bởi phương trình vi phân
 \label{eq:1}
 \end{equation}
 
-\begin{equation*}
-\begin{aligned}
-x(t)&=\begin{bmatrix}x_1(t)\\ \vdots\\ x_n(t)\end{bmatrix},
-&u(t)&=\begin{bmatrix}u_1(t)\\ \vdots\\ u_m(t)\end{bmatrix},\\[4pt]
-A(t)&=\begin{bmatrix}
-a_{11}(t) & \cdots & a_{1n}(t)\\
-\vdots & \ddots & \vdots\\
-a_{n1}(t) & \cdots & a_{nn}(t)
-\end{bmatrix},
-&B(t)&=\begin{bmatrix}
-b_{11}(t) & \cdots & b_{1m}(t)\\
-\vdots & \ddots & \vdots\\
-b_{n1}(t) & \cdots & b_{nm}(t)
-\end{bmatrix}.
-\end{aligned}
-\end{equation*}
-
-Trong đó
-\begin{itemize}[leftmargin=2.2em]
-  \item $x(t)$: là vectơ trạng thái (state vector),
-  \item $u(t)$: vectơ điều khiển/đầu vào.
-\end{itemize}
-
-\textbf{Giả định về tính khả tích:} Giả sử các phần tử của $A(t)$, $B(t)$ là các hàm khả tích trên bất kỳ khoảng thời gian hữu hạn. Điều này đảm bảo các nghiệm của phương trình vi phân tồn tại và duy nhất trong những khoảng thời gian đó.
+Trong đó $x(t)\in\R^n$ là vectơ trạng thái, $u(t)\in\R^m$ là vectơ điều khiển; $A(t)\in\R^{n\times n}$, $B(t)\in\R^{n\times m}$.
 
 \textbf{Tập các điều khiển được chấp nhận:}
 \begin{equation}
 \Delta\;\coloneqq\;\Bigl\{u(\cdot)=(u_1(\cdot),\ldots,u_m(\cdot))\trans:\ |u_i(t)|\le 1,\ i=1,\ldots,m\Bigr\}.
 \label{eq:2}
 \end{equation}
-Trong phần còn lại, ta dùng ký hiệu $\mathcal{U}\equiv\Delta$.
 
 \subsection{Bài toán điều khiển tối ưu thời gian}
 \noindent\textbf{Bài toán điều khiển:}
@@ -99,7 +77,7 @@ Việc nắm được tập trạng thái có thể đạt được tại thời
 Nói cách khác, ta xét bài toán tối ưu thời gian:
 \begin{equation}
 \tag{4}\label{eq:tstar}
-t^*\;\coloneqq\;\inf\Bigl\{t_1>0\ \big|\ \exists\,u(\cdot)\in\mathcal{U}\ \text{sao cho}\ x(t_1; x_0, u)=x_1\Bigr\}.
+t^*\;\coloneqq\;\inf\Bigl\{t_1>0\ \big|\ \exists\,u(\cdot)\in\Delta\ \text{sao cho}\ x(t_1; x_0, u)=x_1\Bigr\}.
 \end{equation}
 Mục tiêu là tìm điều khiển tối ưu $u^*(\cdot)$ đưa hệ từ trạng thái ban đầu $x_0$ đến trạng thái đích $x_1$ trong thời gian tối thiểu $t^*$.
 
@@ -215,7 +193,7 @@ $y_1$: điểm mục tiêu tương ứng trong không gian $R$.
 
 \par\noindent
 Đặt tập trạng thái có thể đạt được tại thời điểm $t$ trong không gian gốc là
-\[\mathcal{A}(t)\;\coloneqq\;\{x(t;u):u(\cdot)\in\mathcal{U}\}.\]
+\[\mathcal{A}(t)\;\coloneqq\;\{x(t;u):u(\cdot)\in\Delta\}.\]
 Vì $x_1\in\mathcal{A}(t^*)$, ta có $y_1(t^*)\in R(t^*)$, và rõ ràng $t^*$ là thời điểm nhỏ nhất mà $y_1(t)\in R(t)$ (nếu không, ta có $x_1\in\mathcal{A}(\bar t)$ với $\bar t<t^*$; giả thiết này là mâu thuẫn).
 
 Do đó:
@@ -308,7 +286,7 @@ Theo Định lý Siêu phẳng Đỡ, tồn tại một siêu phẳng không t�
 Vì mọi $y\in R(t^*)$ có dạng $y=\int_0^{t^*} C(t)u(t)\,dt$, từ \eqref{eq:support} suy ra
 \begin{equation}
 \eta\trans y_1
-\;=\;\max_{u(\cdot)\in\mathcal{U}}\ \int_0^{t^*} \eta\trans C(t)u(t)\,dt.
+\;=\;\max_{u(\cdot)\in\Delta}\ \int_0^{t^*} \eta\trans C(t)u(t)\,dt.
 \label{eq:max-integral}
 \end{equation}
 Điều này dẫn đến điều kiện rằng $u^*(t)$ phải cực đại hóa biểu thức dưới dấu tích phân tại hầu hết mọi thời điểm $t$.
@@ -340,10 +318,10 @@ Hay gọn hơn:
 
 Điều này chỉ xảy ra nếu
 \[
-u^*(\tau)=\sgn\bigl(\eta\trans y(\tau)\bigr),\qquad \tau\in(0,t^*).
+H\bigl(\psi(t),x(t),u^*(t)\bigr)=\max_{u\in \Delta} H\bigl(\psi(t),x(t),u\bigr),
+\qquad t\in[0,t^*],
 \]
-Trong đó:
-\[
+trong đó phép cực đại hoá được hiểu theo nghĩa ``từng thời điểm'' dưới ràng buộc biên độ $|u_i(t)|\le 1$.
 \sgn(x)=\begin{cases}
 +1, & \text{nếu } x>0,\\
 -1, & \text{nếu } x<0,\\
@@ -434,27 +412,27 @@ Nếu định nghĩa Hamiltonian bởi
 \[H(\psi,x,u)=\psi\bigl(A(t)x+B(t)u\bigr),\]
 thì điều khiển tối ưu \textup{(7)} thỏa mãn điều kiện cực đại:
 \[
-H\bigl(\psi(t),x(t),u^*(t)\bigr)=\max_{u\in U} H\bigl(\psi(t),x(t),u\bigr),
+H\bigl(\psi(t),x(t),u^*(t)\bigr)=\max_{u\in \Delta} H\bigl(\psi(t),x(t),u\bigr),
 \qquad t\in[0,t^*],
 \]
-trong đó $U=[-1,1]^m$ (tương ứng với các ràng buộc trong $\Delta$).
+trong đó phép cực đại hoá được hiểu theo nghĩa ``từng thời điểm'' dưới ràng buộc biên độ $|u_i(t)|\le 1$.
 
 Nguyên lý Cực đại phát biểu rằng điều khiển tối ưu $u^*(t)$ phải là giá trị điều khiển làm cho Hamiltonian đạt giá trị cực đại tại mọi thời điểm $t\in[0,t^*]$:
 \begin{equation}
-H\bigl(\psi(t),x(t),u^*(t)\bigr)=\max_{u\in U} H\bigl(\psi(t),x(t),u\bigr),\qquad t\in[0,t^*].
+H\bigl(\psi(t),x(t),u^*(t)\bigr)=\max_{u\in \Delta} H\bigl(\psi(t),x(t),u\bigr),\qquad t\in[0,t^*].
 \tag{12}
 \label{eq:pmp-hamiltonian}
 \end{equation}
-với $U=[-1,1]^m$.
+với ràng buộc biên độ $|u_i(t)|\le 1$.
 
 \subsection{Điều khiển \emph{bang-bang} là gì?}
-Trong bài toán bị chặn biên độ $U=[-1,1]^m$, hạng phụ thuộc điều khiển trong Hamiltonian là tuyến tính theo $u$:
+Trong bài toán bị chặn biên độ $|u_i(t)|\le 1$, hạng phụ thuộc điều khiển trong Hamiltonian là tuyến tính theo $u$:
 \[H(\psi,x,u)=\psi A(t)x+\bigl(\psi B(t)\bigr)u.\]
 Vì thế, để cực đại hóa theo $u$ tại mỗi thời điểm, nghiệm tối ưu (khi không rơi vào trường hợp suy biến) sẽ chọn ngay các giá trị \emph{biên} của miền điều khiển.
 Điều khiển như vậy được gọi là \textbf{bang-bang}: mỗi thành phần $u_i^*(t)$ chỉ nhận các giá trị $+1$ hoặc $-1$ (gần như mọi $t$), và chỉ \emph{chuyển} giữa $+1$ và $-1$ tại các \textbf{thời điểm chuyển mạch} (switching times) khi biểu thức quyết định đổi dấu.
 
 \begin{itemize}[leftmargin=2.2em]
-  \item Do tập điều khiển $\Delta$ bị giới hạn biên độ (ví dụ $[-1,1]$), điều kiện cực đại hóa Hamiltonian dẫn đến việc $u^*(t)$ phải nhảy giữa các giá trị biên.
+  \item Do ràng buộc biên độ $|u_i(t)|\le 1$, điều kiện cực đại hóa Hamiltonian dẫn đến việc $u^*(t)$ phải nhảy giữa các giá trị biên.
 \end{itemize}
 
 Trong trường hợp một điều khiển vô hướng ($m=1$), khi đó $u(t)\in[-1,1]$ và $\psi(t)B(t)$ là một số thực. Khi đó:
@@ -471,6 +449,399 @@ Cụ thể, nếu đặt
 thì dạng điều khiển đã thu được ở Mục 5 chính là
 \[u_i^*(t)=\sgn\bigl(\,[\Phi(t)]_i\,\bigr),\qquad i=1,\ldots,m,\ t\in[0,t^*],\]
 và khi $[\Phi(t)]_i=0$ thì $u_i^*(t)$ có thể không xác định tức thời (điểm chuyển mạch) hoặc có nhiều lựa chọn tương đương.
+
+\subsection*{6.4. Ứng dụng của Nguyên lý Cực đại}
+Xét bài toán điều khiển trong Ví dụ 1 ở Chương I. Phương trình trạng thái là
+\begin{equation}
+\dot{x}(t)=
+\begin{bmatrix}
+0 & 1\\
+0 & 0
+\end{bmatrix}x(t)
++\begin{bmatrix}
+0\\
+1
+\end{bmatrix}u(t),
+\qquad x(0)=(x_0,y_0).
+\tag{1}
+\end{equation}
+
+\noindent\textbf{Trong đó:}
+\begin{itemize}[leftmargin=2.2em]
+  \item $\dot x(t)=Ax(t)+Bu(t)$: phương trình không gian trạng thái tuyến tính (bất biến theo thời gian).
+  \item $x(t)=\bigl[x_1(t),x_2(t)\bigr]\trans$: vectơ trạng thái.
+  \item $u(t)$: tín hiệu điều khiển (gia tốc), bị giới hạn $|u(t)|\le 1$.
+  \item Ma trận $A$ và $B$ xác định động lực học của hệ.
+\end{itemize}
+
+Hệ thống có thể được mô tả như một vật thể chuyển động, trong đó $x_1$ là vị trí, $x_2$ là vận tốc, còn $u$ là gia tốc.
+
+\noindent\textbf{Do đó:}
+\begin{equation*}
+A=
+\begin{bmatrix}
+0 & 1\\
+0 & 0
+\end{bmatrix},
+\qquad
+B=
+\begin{bmatrix}
+0\\
+1
+\end{bmatrix}.
+\end{equation*}
+
+Và $X(t)$ là nghiệm của
+\[
+\dot X(t)=AX(t),\qquad X(0)=I.
+\]
+Khi đó, ma trận chuyển đổi trạng thái $X(t)=e^{At}$ và nghịch đảo của nó $\bigl(X^{-1}(t)\bigr)$ được tính toán bằng cách sử dụng chuỗi Taylor, tận dụng tính chất $A^2=0$:
+\[
+X(t)=e^{At}=I+\sum_{n=1}^{\infty}\frac{A^n t^n}{n!}.
+\]
+
+\noindent Do đó
+\[
+X(t)=I+At=\begin{bmatrix}1 & t\\ 0 & 1\end{bmatrix}.
+\]
+Tương tự,
+\[
+X^{-1}(t)=e^{-At}=I-At=\begin{bmatrix}1 & -t\\ 0 & 1\end{bmatrix}.
+\]
+
+\noindent\textbf{Hệ quả:} Bằng cách áp dụng Nguyên lý Cực đại, hàm điều khiển tối ưu có dạng \emph{bang-bang}. Hàm chuyển mạch trong trường hợp này là một hàm tuyến tính theo thời gian:
+\begin{equation}
+u^*(t)=\sgn\bigl(\eta_1 t+\eta_2\bigr),\qquad \text{với một số }(\eta_1,\eta_2)\in\R^2.
+\tag{2}
+\end{equation}
+
+Chúng ta thấy ngay rằng $u^*$ chỉ có một lần chuyển mạch (\emph{switch}) giữa $+1$ và $-1$ (như đã phỏng đoán). Lưu ý rằng khi $u^*(t)=+1$, có thể giải (1) với điều kiện ban đầu $x(0)=(x_0,y_0)$ và thu được:
+\[
+\frac{dx_1}{dt}=x_2,\qquad \frac{dx_2}{dt}=1,
+\qquad \text{tức là}\qquad
+\frac{dx_2}{dx_1}=\frac{1}{x_2},
+\qquad x(0)=(x_0,y_0).
+\]
+Suy ra quỹ đạo trong mặt phẳng pha thỏa
+\[
+x_1=\frac{x_2^2}{2}+x_0-\frac{y_0^2}{2}.
+\]
+
+Điều này cho phép viết nghiệm của hệ dưới dạng tường minh và từ đó áp dụng Nguyên lý Cực đại để suy ra điều khiển tối ưu có dạng \emph{bang-bang} (thay đổi giữa các giá trị biên $\pm1$ theo dấu của hàm chuyển mạch).
+
+\begin{itemize}[label=-,leftmargin=2.2em]
+  \item Hàm chuyển mạch là một hàm tuyến tính theo thời gian. Nó chỉ có thể đổi dấu (\emph{zero crossing}) tối đa một lần. Điều này chứng minh rằng điều khiển tối ưu cho hệ thống này chỉ có một lần chuyển mạch giữa giá trị biên $+1$ và $-1$.
+  \item Khi điều khiển $u^*$ nhận giá trị cố định ($+1$ hoặc $-1$), quỹ đạo của hệ thống trong không gian trạng thái $(x_1,x_2)$ tuân theo các đường cong parabol (Hình 3).
+  \item Hình 3 minh hoạ một quỹ đạo parabol điển hình, đại diện cho đường đi của hệ thống khi điều khiển là hằng số, di chuyển từ một điểm ban đầu $(x_0,y_0)$ về gốc tọa độ hoặc điểm mục tiêu.
+\end{itemize}
+
+% (Tài liệu gốc đánh số đây là Hình 3)
+\setcounter{figure}{2}
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=1]
+  % axes
+  \draw[->] (-2.7,0) -- (3.2,0) node[below right] {$x_1$};
+  \draw[->] (0,-2.2) -- (0,2.6) node[above left] {$x_2$};
+  \draw (0,0) circle (1.6pt);
+
+  % a representative phase-trajectory parabola x1 = c + (x2^2)/2 (scaled for scan-like look)
+  % We draw it in the (x1,x2)-plane with x2 vertical.
+  \def\cshift{0.55}
+  \draw[thick,domain=-1.9:1.9,samples=200]
+    plot ({\cshift+0.55*(\x*\x)}, {\x});
+
+  % direction arrows (x2 increases when u=+1)
+  \draw[->,thick] ({\cshift+0.55*(0.30*0.30)}, {0.30}) -- ({\cshift+0.55*(0.55*0.55)}, {0.55});
+  \draw[->,thick] ({\cshift+0.55*((-0.85)*(-0.85))}, {-0.85}) -- ({\cshift+0.55*((-0.55)*(-0.55))}, {-0.55});
+
+  % mark initial point (x0,y0)
+  \coordinate (P0) at ({\cshift+0.55*((-1.25)*(-1.25))}, {-1.25});
+  \fill (P0) circle (2pt);
+  \node[anchor=west] at ($(P0)+(0.15,-0.05)$) {$(x_0,y_0)$};
+\end{tikzpicture}
+\captionsetup{labelsep=none}
+\caption{}
+\label{fig:3}
+\end{figure}
+
+Nhìn vào Hình 3, trên cung ứng với $u^*(t)=+1$ thì $x_2$ luôn tăng, vì vậy chúng ta di chuyển trên quỹ đạo theo hướng được chỉ định.
+
+% (Tài liệu gốc đánh số đây là Hình 4)
+\setcounter{figure}{3}
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=1]
+  % axes
+  \draw[->] (-2.7,0) -- (3.2,0) node[below right] {$x_1$};
+  \draw[->] (0,-2.2) -- (0,2.6) node[above left] {$x_2$};
+  \draw (0,0) circle (1.6pt);
+
+  % u = -1: x1 = c - (x2^2)/2  (left-opening parabola)
+  \def\cshiftm{2.10}
+  \draw[thick,domain=-1.9:1.9,samples=200]
+    plot ({\cshiftm-0.55*(\x*\x)}, {\x});
+
+  % direction arrows (x2 decreases when u=-1)
+  \draw[->,thick] ({\cshiftm-0.55*(0.65*0.65)}, {0.65}) -- ({\cshiftm-0.55*(0.35*0.35)}, {0.35});
+  \draw[->,thick] ({\cshiftm-0.55*((-0.35)*(-0.35))}, {-0.35}) -- ({\cshiftm-0.55*((-0.65)*(-0.65))}, {-0.65});
+
+  % mark initial point (x0,y0) on the upper branch
+  \coordinate (P1) at ({\cshiftm-0.55*(1.05*1.05)}, {1.05});
+  \fill (P1) circle (2pt);
+  \node[anchor=west] at ($(P1)+(0.15,0.05)$) {$(x_0,y_0)$};
+\end{tikzpicture}
+\captionsetup{labelsep=none}
+\caption{}
+\label{fig:4}
+\end{figure}
+
+Khi $u=-1$, có:
+\[
+x_1=-\frac{1}{2}x_2^2+\left(x_0+\frac{1}{2}y_0^2\right),\qquad x_2\ \text{đang giảm}.
+\]
+
+Nguyên lý cực đại cho chúng ta biết rằng điều khiển tối ưu là một trong hai trường hợp:
+$u^*=+1$ (sau đó $u^*=-1$), hoặc $u^*=-1$ (sau đó $u^*=+1$).
+Vì vậy, để kết thúc tại điểm gốc toạ độ $0$ ta cần di chuyển trên các cung quỹ đạo; nhờ đó có thể dễ dàng xây dựng quỹ đạo tối ưu.
+
+\begin{itemize}[label=-,leftmargin=2.2em]
+  \item Khi $u=+1$, hệ thống đi theo một đường cong parabol cụ thể và vận tốc $x_2$ luôn tăng.
+  \item Khi $u=-1$, hệ thống đi theo một đường cong parabol khác và vận tốc $x_2$ luôn giảm.
+  \item Hình 4 cho thấy một ví dụ về cung quỹ đạo khi $u=-1$, di chuyển từ một điểm ban đầu $(x_0,y_0)$ theo hướng giảm dần của $x_2$.
+\end{itemize}
+
+Nguyên lý cực đại chỉ ra rằng điều khiển tối ưu phải là dạng bang-bang (chỉ sử dụng $+1$ hoặc $-1$) và chỉ có một lần chuyển mạch duy nhất.
+Hai chiến lược khả thi là:
+\begin{itemize}[label=+,leftmargin=2.2em]
+  \item bắt đầu với $u^*=+1$, sau đó chuyển sang $u^*=-1$,
+  \item bắt đầu với $u^*=-1$, sau đó chuyển sang $u^*=+1$.
+\end{itemize}
+
+Quỹ đạo tối ưu được xây dựng bằng cách nối hai cung parabol lại với nhau tại một điểm chuyển mạch trên trục $x_1$ hoặc một đường cong đặc biệt.
+
+% (Tài liệu gốc đánh số đây là Hình 5)
+\setcounter{figure}{4}
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=1]
+  % axes
+  \draw[->] (-2.7,0) -- (3.2,0) node[below right] {$x_1$};
+  \draw[->] (0,-2.2) -- (0,2.6) node[above left] {$x_2$};
+  \draw (0,0) circle (1.6pt);
+
+  % switching curves (dashed): x2 = ± sqrt(2 x1), i.e. x1 = x2^2/2, x1 >= 0
+  \draw[dashed,domain=-1.75:1.75,samples=200]
+    plot ({0.55*(\x*\x)}, {\x});
+
+  % an illustrative optimal trajectory: follow u=+1 on upper arc then switch and follow u=-1 on lower arc to reach the origin
+  % upper arc (u=+1): x1 = x2^2/2 + c1
+  \def\cOne{0.90}
+  \draw[thick,domain=0.00:1.75,samples=200]
+    plot ({\cOne+0.55*(\x*\x)}, {\x});
+
+  % lower arc (u=-1): x1 = -x2^2/2 + c2
+  \def\cTwo{1.55}
+  \draw[thick,domain=-1.55:0.00,samples=200]
+    plot ({\cTwo-0.55*(\x*\x)}, {\x});
+
+  % arrows indicating motion direction
+  \draw[->,thick] ({\cOne+0.55*(0.85*0.85)}, {0.85}) -- ({\cOne+0.55*(1.15*1.15)}, {1.15});
+  \draw[->,thick] ({\cTwo-0.55*((-0.55)*(-0.55))}, {-0.55}) -- ({\cTwo-0.55*((-0.95)*(-0.95))}, {-0.95});
+
+  % mark initial point on upper arc
+  \coordinate (Pstart) at ({\cOne+0.55*(1.35*1.35)}, {1.35});
+  \fill (Pstart) circle (2pt);
+  \node[anchor=west] at ($(Pstart)+(0.15,0.05)$) {$(x_0,y_0)$};
+\end{tikzpicture}
+\captionsetup{labelsep=none}
+\caption{}
+\label{fig:5}
+\end{figure}
+
+Hình 5 minh hoạ cách xây dựng quỹ đạo tối ưu từ một điểm xuất phát $(x_0,y_0)$. Quỹ đạo này bao gồm một phần di chuyển với $u=+1$ (phần cong hướng lên) và một phần di chuyển với $u=-1$ (phần cong hướng xuống) để kết thúc chính xác tại gốc toạ độ. Đường cong nét đứt $x_2=\sqrt{2x_1}$ và $x_2=-\sqrt{2x_1}$ xác định ``mặt chuyển mạch'' --- nơi xảy ra sự chuyển đổi.
+
+\noindent\textbf{VD:} Nếu $x_0=4$ và $y_0=-1$, thì trước tiên ta phải điều khiển với $u=-1$, và khi hai đường parabol trong Hình 5 giao nhau, chúng ta đổi sang $u=+1$. Để tính thời điểm chuyển mạch đầu tiên $t_1$, chúng ta phải tìm phương trình của parabol thứ nhất:
+
+\begin{itemize}[label=-,leftmargin=2.2em]
+  \item Đây là bài toán điều khiển tối ưu theo thời gian (\emph{time-optimal control}) cho hệ tuyến tính bậc 2:
+  \[
+  \dot x_1=x_2,\qquad \dot x_2=u,\qquad u\in\{-1,+1\}.
+  \]
+  \item Mục tiêu của bài toán: Đưa trạng thái từ điểm ban đầu $(x_0,y_0)$ về gốc $(0,0)$ trong thời gian ngắn nhất.
+  \item Ở VD này, $x_1(0)=x_0=4$, $x_2(0)=y_0=-1$. Theo lý thuyết điều khiển tối ưu (\emph{bang-bang control}) thì điều khiển tối ưu chỉ nhận giá trị biên $u=\pm 1$, có thể chỉ đổi dấu một lần và điểm đổi dấu nằm trên một đường cong đặc biệt gọi là \emph{switching locus} (Quỹ tích chuyển mạch).
+\end{itemize}
+
+\noindent\textbf{+ Với $u=-1$ có}
+\[
+\dot x_2=-1\ \Rightarrow\ x_2(t)=-t+C.
+\]
+Kết hợp với $\dot x_1=x_2$, ta sẽ thu được quỹ đạo trong mặt phẳng trạng thái:
+\[
+x_1=\frac{1}{2}(9-x_2^2)\ \text{hay}\ x_2=-\sqrt{9-2x_1}\ (x_2<0)\ \rightarrow\ \text{đây là parabol thứ nhất}.
+\]
+
+\noindent\textbf{+ Với $u=+1$}, tương tự, có $\dot x_2=1$, ta sẽ thu được quỹ đạo trong mặt phẳng trạng thái:
+\[
+x_2=-\sqrt{2x_1}\ \rightarrow\ \text{Đây là parabol thứ hai}.
+\]
+
+\begin{itemize}[label=-,leftmargin=2.2em]
+  \item Điểm đổi điều khiển xảy ra khi hai quỹ đạo giao nhau:
+  \[
+  -\sqrt{9-2x_1}=-\sqrt{2x_1}.
+  \]
+  Bình phương hai vế:
+  \[
+  9-2x_1=2x_1\ \Rightarrow\ x_1=\frac{9}{4}.
+  \]
+  Thay lại vào $x_2$, có:
+  \[
+  x_2=-\sqrt{2x_1}=-\sqrt{\frac{9}{2}}=-\frac{3}{\sqrt{2}}=-\frac{3\sqrt{2}}{2}.
+  \]
+
+  \item Điểm chuyển mạch là:
+  \[
+  \left(\frac{9}{4};-\frac{3\sqrt{2}}{2}\right).
+  \]
+
+  \item Trong giai đoạn đầu $u=-1$,
+  \[
+  x_2(t)=-t+y_0=-t-1.
+  \]
+  Tại thời điểm chuyển mạch: $x_2(t_1)=-\frac{3\sqrt{2}}{2}$. Suy ra:
+  \[
+  -t_1-1=-\frac{3\sqrt{2}}{2}\ \Rightarrow\ t_1+1=\frac{3\sqrt{2}}{2}
+  \Rightarrow\
+  t_1=\frac{3\sqrt{2}-2}{2}\approx 1.121\quad\text{(đây là thời điểm đổi điều khiển)}.
+  \]
+\end{itemize}
+
+\noindent Sau khi đổi sang $u=+1$, hệ thoả mãn:
+\[
+\dot x_1=x_2,\qquad \dot x_2=1.
+\]
+
+\noindent Xét giai đoạn sau chuyển mạch và \emph{đặt lại mốc thời gian} tại thời điểm chuyển mạch (tức là $t=0$ ứng với lúc $x_2(0)=-\tfrac{3\sqrt{2}}{2}$). Khi đó, giải ra:
+\[
+\dot x_2=1\ \Rightarrow\ x_2(t)=t-\frac{3\sqrt{2}}{2}.
+\]
+Khi hệ về gốc thì $x_2=0$, do đó
+\[
+t=\frac{3\sqrt{2}}{2}.
+\]
+Vì thời gian ở giai đoạn đầu (với $u=-1$) là $t_1=\frac{3\sqrt{2}}{2}-1$, nên thời gian tối ưu tổng cộng là
+\[
+t^*=t_1+\frac{3\sqrt{2}}{2}=\left(\frac{3\sqrt{2}}{2}-1\right)+\frac{3\sqrt{2}}{2}=2\cdot\frac{3\sqrt{2}}{2}-1=3\sqrt{2}-1\approx 3.242\,\text{s}.
+\]
+
+\medskip
+\noindent\textbf{Tổng quát hoá (đường cong chuyển mạch và luật phản hồi).}
+Tài liệu tổng quát hoá bằng cách định nghĩa đường cong
+\[
+x_2=W(x_1)\coloneqq
+\begin{cases}
+-\sqrt{2x_1}, & \text{nếu } x_1\ge 0,\\
++\sqrt{-2x_1}, & \text{nếu } x_1<0.
+\end{cases}
+\]
+Đường cong này chia mặt phẳng trạng thái thành các vùng điều khiển khác nhau. Đặt
+\[
+\Gamma_+\coloneqq\bigl\{(x_1,x_2):\ x_1\ge 0,\ x_2=W(x_1)\bigr\},\qquad
+\Gamma_-\coloneqq\bigl\{(x_1,x_2):\ x_1<0,\ x_2=W(x_1)\bigr\}.
+\]
+Khi đó có thể mô tả một luật điều khiển phản hồi (bang-bang) dưới dạng
+\[
+\psi(x_1,x_2)=
+\begin{cases}
+-1, & \text{nếu } x_2>W(x_1)\ \text{hoặc } (x_1,x_2)\in\Gamma_-,\\
+\phantom{-}0, & \text{nếu } x_1=x_2=0,\\
+\phantom{-}1, & \text{nếu } x_2<W(x_1)\ \text{hoặc } (x_1,x_2)\in\Gamma_+.
+\end{cases}
+\]
+Nói cách khác, dấu của $x_2-W(x_1)$ quyết định chọn $u=-1$ hay $u=+1$; trên chính quỹ chuyển mạch ta quy ước theo hai nhánh $\Gamma_\pm$.
+
+% (Tài liệu gốc đánh số đây là Hình 6)
+\setcounter{figure}{5}
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=1]
+  % axes
+  \draw[->] (-3.2,0) -- (3.5,0) node[below right] {$x_1$};
+  \draw[->] (0,-2.6) -- (0,2.8) node[above left] {$x_2$};
+  \draw (0,0) circle (1.6pt);
+
+  % switching locus: Gamma = Gamma_- \cup Gamma_+
+  % Right branch Gamma_+: x2 = -sqrt(2 x1), x1>=0
+  \draw[thick] plot[domain=0:3.0,samples=200] ({\x},{-0.95*sqrt(2*\x)});
+  % Left branch Gamma_-: x2 = +sqrt(-2 x1), x1<0
+  \draw[thick] plot[domain=-3.0:0,samples=200] ({\x},{0.95*sqrt(-2*\x)});
+
+  % a few representative trajectories (scan-like): families for u=-1 (right) and u=+1 (left)
+  % u = -1: x1 = c - k x2^2
+  \foreach \c in {2.4,2.9,3.3} {
+    \draw[thick] plot[domain=-1.2:1.4,samples=200] ({\c-0.55*(\x*\x)},{\x});
+    \draw[->,thick] ({\c-0.55*(0.55*0.55)},{0.55}) -- ({\c-0.55*(0.25*0.25)},{0.25});
+  }
+  % u = +1: x1 = c + k x2^2
+  \foreach \c in {-2.6,-3.0,-3.4} {
+    \draw[thick] plot[domain=-1.4:1.2,samples=200] ({\c+0.55*(\x*\x)},{\x});
+    \draw[->,thick] ({\c+0.55*((-0.55)*(-0.55))},{-0.55}) -- ({\c+0.55*((-0.25)*(-0.25))},{-0.25});
+  }
+
+  % labels for Gamma branches
+  \node[anchor=west] at (2.05,-1.55) {$\Gamma_+\!:\ x_2=-\sqrt{2x_1}$};
+  \node[anchor=east] at (-2.05,1.55) {$\Gamma_-\!:\ x_2=+\sqrt{-2x_1}$};
+  \node[anchor=west] at (2.25,1.85) {$u=-1$};
+  \node[anchor=east] at (-2.25,-1.85) {$u=+1$};
+\end{tikzpicture}
+\captionsetup{labelsep=colon}
+\caption{Quỹ chuyển mạch $\Gamma=\Gamma_-\cup\Gamma_+$.}
+\label{fig:6}
+\end{figure}
+
+\noindent Đây là mặt phẳng trạng thái $(x_1,x_2)$ với trục ngang là vị trí $(x_1)$, trục đứng là vận tốc $(x_2)$.
+Trong hình có hai đường cong đặc biệt:
+\begin{itemize}[label=+,leftmargin=2.2em]
+  \item $\Gamma_+:\ x_2=-\sqrt{2x_1}$ \ (bên phải, $x_1\ge 0$),
+  \item $\Gamma_-:\ x_2=+\sqrt{-2x_1}$ \ (bên trái, $x_1<0$).
+\end{itemize}
+Hợp của chúng là
+\[
+\Gamma=\Gamma_-\cup\Gamma_+,
+\]
+gọi là \emph{quỹ chuyển mạch} (switching locus).
+Khi biết vị trí của trạng thái trong mặt phẳng này thì ta suy ra được điều khiển tối ưu:
+\begin{itemize}[leftmargin=2.2em]
+  \item Nếu ở \emph{trên} $\Gamma$ (tức $x_2>W(x_1)$) thì điều khiển tối ưu là $u=-1$.
+  \item Nếu ở \emph{dưới} $\Gamma$ (tức $x_2<W(x_1)$) thì điều khiển tối ưu là $u=+1$.
+  \item Nếu đúng tại gốc $(0,0)$ thì quỹ đạo kết thúc.
+\end{itemize}
+
+\medskip
+\noindent\textbf{Ý nghĩa của các mũi tên cong:}
+Các đường cong có mũi tên biểu diễn quỹ đạo trạng thái tối ưu ứng với:
+\begin{itemize}[leftmargin=2.2em]
+  \item $u=-1$: vùng phía trên đường chuyển mạch,
+  \item $u=+1$: vùng phía dưới đường chuyển mạch.
+\end{itemize}
+
+\noindent Mỗi quỹ đạo bắt đầu từ một điểm bất kỳ, di chuyển theo động lực học tương ứng, chỉ đổi điều khiển một lần khi cắt đường $\Gamma$ và kết thúc tại gốc $(0,0)$.
+
+\medskip
+\noindent Quỹ đạo tối ưu xuất phát từ $x(0)=(x_0,y_0)$ chính là nghiệm của hệ phương trình:
+\[
+\dot{z}=\psi(z,\dot{z}),\qquad z(0)=x_0,\qquad \dot{z}(0)=y_0.
+\]
+Và nghiệm này kết thúc tại
+\[
+z(t^*)=0,\qquad \dot{z}(t^*)=0.
+\]
+
+\medskip
+\noindent Với bất kì điểm nào $(z(t), \dot{z}(t))$ nằm trên quỹ đạo, giá trị của điều khiển tối ưu tại thời điểm $t$ là $u^*(t) = \psi(z(t), \dot{z}(t))$.
+
+\noindent Khi phương trình được viết dưới dạng này, một người quan sát ngồi trên chiếc xe đẩy (trolley) có thể điều khiển lực đẩy một cách tối ưu, chỉ cần biết vị trí và vận tốc tại mỗi thời điểm $t$. Các điều khiển thuộc loại này được gọi là điều khiển vòng kín (closed-loop control) hay điều khiển phản hồi (feedback control).
 
 \begin{thebibliography}{9}
 \bibitem{hermes}
